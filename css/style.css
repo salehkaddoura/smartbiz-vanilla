@@ -1,0 +1,146 @@
+* {
+	box-sizing: border-box;
+}
+
+html, body {
+	margin: 0;
+	padding: 0;
+	height: 100%;
+	width: 100%;
+}
+
+input, button {
+	font-family: inherit;
+}
+
+.page__container {
+	font-family: 'Dosis', sans-serif;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	align-content: center;
+	background: #e67e22;
+	height: 100%;
+	width: 100%;
+}
+
+.form__container {
+	width: 575px;
+	display: flex;
+	flex-direction: column;
+	align-self: center;
+	background: #FFF;
+	border-radius: 4px;
+	padding: 50px;
+}
+
+.form__header {
+	display: flex;
+	flex-direction: row;
+	justify-content: flex-start;
+	align-items: center;
+	align-content: center;
+}
+
+.form__header > h2 {
+	margin: 0;
+	font-weight: 300;
+	margin-right: 18px;
+}
+
+.form__star__wrapper {
+	position: relative;
+	width: 5px;
+	height: 15px;
+}
+
+.form__star__wrapper span {
+	position: absolute;
+	color: #f1c40f;
+}
+
+.form__star__wrapper span:first-child {
+	top: -10px;
+	right: 2px;
+}
+
+.form__star__wrapper span:nth-child(2) {
+	bottom: -10px;
+	right: -2px;
+}
+
+.form__star__wrapper span:last-child {
+	right: -20px;
+}
+
+.form__star__wrapper .form__star__icon--sm {
+	font-size: 10px;
+}
+
+
+.form__input {
+	font-family: 'Dosis', sans-serif;
+	font-size: 20px;
+	font-weight: 400;
+	display: block;
+	border-top: none;
+	border-left: none;
+	border-right: none;
+	border-bottom: 1px solid #ecf0f1;
+	margin: 10px 0 0 0;
+	padding: 0;
+	height: 42px;
+	width: 100%;
+	padding-left: 5px
+}
+
+.form__submit__wrapper {
+	position: relative;
+	margin-top: 35px;
+	padding: 0 1px;
+}
+
+.form__submit__svg {
+	width: 137px;
+	height: 32px;
+	position: absolute;
+	padding-left: 1px;
+	left: 1px;
+	bottom: 0;
+	z-index: 100;
+}
+
+.form__button {
+	font-size: 16px;
+	width: 137px;
+	height: 32px;
+	border: 1px solid #ecf0f1;
+	border-radius: 50px;
+	background-color: #FFF;
+	background-image: radial-gradient(100% 100%, white, white, white);
+	color: #ecf0f1;
+	text-transform: uppercase;
+	padding: 0;
+	position: relative;
+	z-index: 100;
+}
+
+.form__button:before {
+	border-radius: inherit;
+	background-image: radial-gradient(100% 100%, #e67e22, #e67e22);
+	content: ' ';
+	display: block;
+	height: 100%;
+	position: absolute;
+	top: 0;
+	left: 0;
+	opacity: 0;
+	width: 100%;
+	z-index: -100;
+	transition: opacity 1s;
+}
+
+.form__valid .form__button:before {
+	opacity: 1;
+}
+
