@@ -1,22 +1,44 @@
-var nameInputField = document.querySelector('.form__input--name'),
-	emailInputField = document.querySelector('.form__input--email'),
-	messageInputField = document.querySelector('.form__input--message'),
-	formSubmitWrapper = document.querySelector('.form__submit__wrapper'),
-	svgPath = document.querySelector('.form__submit__svg path'),
-	formInputCount = Array.from(document.querySelectorAll('.form__input')),
-	length = svgPath.getTotalLength(),
-	sectionLength = (length / formInputCount.length);
+var nameInputField = document.querySelector('.form__input--name');
+var emailInputField = document.querySelector('.form__input--email');
+var messageInputField = document.querySelector('.form__input--message');
+var formSubmitWrapper = document.querySelector('.form__submit__wrapper');
+var formBody = document.getElementById('form__body');
+var svgPath = document.querySelector('.form__submit__svg path');
+var formInputCount = Array.from(document.querySelectorAll('.form__input'));
+var length = svgPath.getTotalLength();
+var sectionLength = (length / formInputCount.length).toFixed();
 
-// to do: add 1 event listener on the form and use event delegation
-nameInputField.addEventListener("keyup", debounce(validateNameField, 500));
-emailInputField.addEventListener("keyup", debounce(validateEmailField, 500));
-messageInputField.addEventListener("keyup", debounce(validateMessageField, 500));
+formBody.addEventListener("keyup", debounce(function(e) {
+	validateForm(e);
+}, 500));
+
+var drawFieldState = {
+	nameField: false,
+	emailField: false,
+	messageField: false
+};
+
+function validateForm(event) {
+	switch(event.target.name) {
+		case 'name__field':
+			validateNameField();
+			break;
+		case 'email__field':
+			validateEmailField();
+			break;
+		case 'message__field':
+			validateMessageField();
+			break;
+	}
+} 
 
 function validateNameField() {
 	var val = nameInputField.value;
 	
 	if (val) {
-		drawSvgPath();
+		drawSvgPath('nameField', true);
+	} else {
+		drawSvgPath('nameField', false);
 	}
 }
 
@@ -25,7 +47,9 @@ function validateEmailField() {
 	var val = emailInputField.value;
 
 	if (val) {
-		drawSvgPath();
+		drawSvgPath('emailField', true);
+	} else {
+		drawSvgPath('emailField', false);
 	}
 }
 
@@ -33,23 +57,42 @@ function validateMessageField() {
 	var val = messageInputField.value;
 	
 	if (val) {
-		drawSvgPath();
+		drawSvgPath('messageField', true);
+	} else {
+		drawSvgPath('messageField', false);
 	}
 }
 
-function drawSvgPath() {
-	if (svgPath.style.strokeDashoffset <= 0) {
+function drawSvgPath(prop, valid) {
+	var currentSvgPathLength;
+
+	if (!valid && drawFieldState[prop]) {
+		drawFieldState[prop] = false;
+
+		if (svgPath.style.strokeDashoffset < length) {
+			currentSvgPathLength = parseInt(Number(svgPath.style.strokeDashoffset).toFixed());
+			svgPath.style.strokeDashoffset = currentSvgPathLength + Number(sectionLength);
+
+			setTimeout(function() {
+				formSubmitWrapper.classList.toggle('form__valid', false);
+			}, 500);	
+		}
+
 		return;
 	}
 
-	svgPath.style.strokeDashoffset -= sectionLength;	
-	
-	if (svgPath.style.strokeDashoffset <= 0) {
-		setTimeout(function() {
-			formSubmitWrapper.classList.add('form__valid');
-		}, 500);
+	if (!drawFieldState[prop] && svgPath.style.strokeDashoffset > 0 && valid ) {
+		currentSvgPathLength = parseInt(Number(svgPath.style.strokeDashoffset).toFixed());
+		svgPath.style.strokeDashoffset = currentSvgPathLength - Number(sectionLength);
+		drawFieldState[prop] = true;
 
-		return;
+		if (svgPath.style.strokeDashoffset <= 0) {
+			svgPath.style.strokeDashoffset = 0;
+			
+			setTimeout(function() {
+				formSubmitWrapper.classList.add('form__valid');
+			}, 500);	
+		}
 	}
 }
 

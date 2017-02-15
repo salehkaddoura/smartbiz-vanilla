@@ -127,7 +127,7 @@ input, button {
 
 .form__button:before {
 	border-radius: inherit;
-	background-image: radial-gradient(100% 100%, #e67e22, #e67e22);
+	background-image: radial-gradient(20% 20%, #e67e22, #e67e22);
 	content: ' ';
 	display: block;
 	height: 100%;
@@ -137,7 +137,7 @@ input, button {
 	opacity: 0;
 	width: 100%;
 	z-index: -100;
-	transition: opacity 1s;
+	transition: opacity 0.20s;
 }
 
 .form__valid .form__button:before {
